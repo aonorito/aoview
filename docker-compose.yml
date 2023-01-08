@@ -1,14 +1,35 @@
 version: '3.7'
 
 services:
-  node:
-    container_name: vue-node
+  db:
+    image: mysql:5.7.34
+    platform: linux/amd64
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./db_sync_dir:/db_sync_dir
+      - ./db_local_scripts:/docker-entrypoint-initdb.d
+    ports:
+      - 13306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: rootroot
+      TZ: Japan
+  vite:
     build:
       context: .
-      dockerfile: ./Dockerfile
-    ports:
-      - 80:8080
-    restart: always
-    tty: true
+      dockerfile: docker/Dockerfile
+    working_dir: /app
     volumes:
-      - ./app:/app
+      - ./frontend:/app:cached # ホストのカレントディレクトリとコンテナ内の作業ディレクトリを同期
+      - node-modules-data:/frontend/node_modules # 特定のパスを独立した名前付きボリュームとして定義
+    environment: # 環境変数
+      - HOST=0.0.0.0 # localhost接続をする際に必要
+      - CHOKIDAR_USEPOLLING=true # ホットリロードを可能にする
+    tty: true
+    ports: # ホストのポートとコンテナのポートを接続
+      - "5173:5173"
+    command: npm run dev # 実行コマンド 今回はviteの実行コマンド
+volumes:
+  mysql-data:
+    driver: local
+  node-modules-data:
+  
