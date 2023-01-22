@@ -18,3 +18,7 @@ assignees: ''
 # Goal
 
 --State the purpose of the issue.
+
+# Not to do
+
+--describe what not to do.
