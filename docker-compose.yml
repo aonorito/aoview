@@ -27,6 +27,7 @@ services:
     tty: true
     ports: # ホストのポートとコンテナのポートを接続
       - "5173:5173"
+      - "6006:6006"
     command: npm run dev # 実行コマンド 今回はviteの実行コマンド
 volumes:
   mysql-data:
