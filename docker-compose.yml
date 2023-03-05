@@ -16,7 +16,7 @@ services:
   vite:
     build:
       context: .
-      dockerfile: docker/Dockerfile
+      dockerfile: docker/local/Dockerfile
     working_dir: /app
     volumes:
       - ./frontend:/app:cached # ホストのカレントディレクトリとコンテナ内の作業ディレクトリを同期
