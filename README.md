@@ -49,3 +49,21 @@ https://zenn.dev/ayuu/articles/84b482c37bea9a
     - router.js
   - stylesheets 
     - base.scss
+
+# GCP image local
+[docker build]
+docker build --platform linux/amd64 -t イメージ名 -f  docker/production/Dockerfile .
+[ローカルで実行]
+docker run -p 8080:8080 -e PORT=8080 イメージ名
+
+# GCP image push
+[docker build]
+docker build --platform linux/amd64 -t イメージ名:latest -f docker/production/Dockerfile .
+[ビルドしたイメージの確認]
+docker images
+[タグの付け替え]
+docker tag イメージ名:latest gcr.io/prime-formula-377501/イメージ名:latest
+[GCPにログインする]
+gcloud auth login
+[イメージのプッシュ]
+docker push gcr.io/prime-formula-377501/イメージ名
